@@ -1,8 +1,7 @@
 *NOTE:* This file is a template that you can use to create the README for your project. The *TODO* comments below will highlight the information you should be sure to include.
 
-# Your Project Title Here
-
-*TODO:* Write a short introduction to your project.
+# NBA 3 Point Percentage Impact on Winning
+Over the past decade NBA offenses have shifted to primarily relying on the 3 point shot to score points. Certain players and teams have greatly impacted this shift. Stephen Curry and the Golden State Warriors are among some of the pioneers for this new approach. This project will analyze NBA 3 point percetage data from 2015 to 2023. We will be looking for the potential impact that 3 point shooting percentage has on winning NBA games.
 
 ## Project Set Up and Installation
 *OPTIONAL:* If your project has any special installation steps, this is where you should put it. To turn this project into a professional portfolio project, you are encouraged to explain how to set up this project in AzureML.
@@ -10,16 +9,16 @@
 ## Dataset
 
 ### Overview
-*TODO*: Explain about the data you are using and where you got it from.
+The dataset we are using was supplied from Kaggle [Link](https://www.kaggle.com/datasets/wyattowalsh/basketball). Within that database is a table that stores all game related data. All relevant team stats and the outcome of each game. From that I was able to extract a condensed dataset with SQL that has 3 point shooting percetages for each team as well as the winning team and the highest 3 point percetage between both teams.
 
 ### Task
-*TODO*: Explain the task you are going to be solving with this dataset and the features you will be using for it.
+With this dataset we will be evaluating whether or not a high 3 point shooting percetage has an impact on the outcome of a game or not.
 
 ### Access
-*TODO*: Explain how you are accessing the data in your workspace.
+I will be registering this dataset within the workspace and accessing it via URL when needed.
 
 ## Automated ML
-*TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
+For the AutoML experiment I will be using a classification experiment type to find the best possible model in an automated fashion. I'm looking for the most accurate model and evaluating the column containing the outcome for the highest 3 point shooting percentage between both teams.
 
 ### Results
 *TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
