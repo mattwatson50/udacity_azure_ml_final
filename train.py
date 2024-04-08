@@ -7,10 +7,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from azureml.core.run import Run
 from azureml.data.dataset_factory import TabularDatasetFactory
+import joblib
 
 def clean_data(data):
     x_df = data.to_pandas_dataframe()
-    y_df = x_df.pop("highest_3pp_wl").apply(lambda s: 1 if s == "highest_3pp_wl" else 0)
+    x_df = x_df.drop(columns=['matchup_home','season_type','team_name_home','team_name_away'])
+    x_df[['wl_home','wl_away']] = x_df[['wl_home','wl_away']].replace(['W','L'],[1,0])
+    y_df = x_df.pop("highest_3pp_wl").apply(lambda s: 1 if s == "W" else 0)
 
     return x_df, y_df
 
@@ -45,6 +48,10 @@ def main():
     # evaluate model
     accuracy = model.score(x_test, y_test)
     run.log("Accuracy", np.float(accuracy))
+    
+    # save model
+    os.makedirs('./output', exist_ok=True)
+    joblib.dump(value=model, filename='./output/model.joblib')
 
 if __name__ == '__main__':
     main()
