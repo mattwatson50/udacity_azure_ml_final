@@ -4,6 +4,9 @@ Over the past decade NBA offenses have shifted to primarily relying on the 3 poi
 ## Project Set Up and Installation
 In order complete this project successfully you will need to register the dataset provided in the /data folder of this repository. This is a custom dataset for this project.
 
+**Udacity Note**
+I am using the provided lab for this project.
+
 ## Dataset
 
 ### Overview
@@ -13,7 +16,29 @@ The dataset we are using was supplied from Kaggle [Link](https://www.kaggle.com/
 With this dataset we will be evaluating whether or not a high 3 point shooting percentage has an impact on the outcome of a game or not.
 
 ### Access
-I will be registering this dataset within the workspace and accessing it via URL when needed.
+I will be registering this dataset within the workspace and accessing it via URL when needed. You can see how I registered the dataset with the following code:
+```
+# workspace setup
+ws = Workspace.from_config()
+print(ws)
+
+# dataset key info
+key = 'nba_3pt_data'
+data_desc = 'NBA game data from 2015 to 2023 containing 3 point percentages.'
+
+# checking if dataset is already registered
+if key in ws.datasets.keys():
+    nba_dataset = ws.datasets[key]
+else:
+    # get data from url
+    nba_data_url = 'https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/data/nba_3pt_data.csv'
+    nba_dataset = Dataset.Tabular.from_delimited_files(nba_data_url)        
+    # register dataset
+    nba_dataset = nba_dataset.register(workspace=ws,
+                               name=key,
+                               description=data_desc)
+```
+There are several ways you can register a dataset but I chose via the Azure ML SDK in this case.
 
 ## Automated ML
 For the AutoML experiment I will be using a classification experiment type to find the best possible model in an automated fashion. I'm looking for the most accurate model and evaluating the column containing the outcome for the highest 3 point shooting percentage between both teams.
