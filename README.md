@@ -27,6 +27,10 @@ The AutoML experiment returned Voting Ensemble as the best model with a very hig
 
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_rundetails.png)
 
+![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_best_model_trained.png)
+
+![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_best_model_metrics.png)
+
 ## Hyperparameter Tuning
 *TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
 
