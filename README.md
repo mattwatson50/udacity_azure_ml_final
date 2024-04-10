@@ -1,10 +1,8 @@
-*NOTE:* This file is a template that you can use to create the README for your project. The *TODO* comments below will highlight the information you should be sure to include.
-
 # NBA 3 Point Percentage Impact on Winning
 Over the past decade NBA offenses have shifted to primarily relying on the 3 point shot to score points. Certain players and teams have greatly impacted this shift. Stephen Curry and the Golden State Warriors are among some of the pioneers for this new approach. This project will analyze NBA 3 point percetage data from 2015 to 2023. We will be looking for the potential impact that 3 point shooting percentage has on winning NBA games.
 
 ## Project Set Up and Installation
-*OPTIONAL:* If your project has any special installation steps, this is where you should put it. To turn this project into a professional portfolio project, you are encouraged to explain how to set up this project in AzureML.
+In order complete this project successfully you will need to register the dataset provided in the /data folder of this repository. This is a custom dataset for this project.
 
 ## Dataset
 
@@ -23,8 +21,6 @@ For the AutoML experiment I will be using a classification experiment type to fi
 ### Results
 The AutoML experiment returned Voting Ensemble as the best model with a very high accuracy.
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
-
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_rundetails.png)
 
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_best_model_trained.png)
@@ -32,24 +28,20 @@ The AutoML experiment returned Voting Ensemble as the best model with a very hig
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_best_model_metrics.png)
 
 ## Hyperparameter Tuning
-*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
-
-For the hyperparameter tuning experiment I chose to do a logistic regression model. Logistic regressions can offer both efficiency and ease of interpretability. I was hoping to easily understand the experiment so that I could compare it to the AutoML experiment. I chose a large range of variables for the regression to use, in hopes of getting a good sampling of results.
+For the hyperparameter tuning experiment I chose to do a logistic regression model. Logistic regressions can offer both efficiency and ease of interpretability. I was hoping to easily understand the experiment so that I could compare it to the AutoML experiment. I chose a large range of C and max iteration variables for the regression to use, in hopes of getting a good sampling of results.
 
 ### Results
-*TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
+The results were not as good as the AutoML model experiment. The best accuracy that the model was able to get was 0.70 which paled in comparison to the AutoML model which had a best accuracy of 0.99. I would choose a different model entirely for the hyper parameter experiment since the logistic regression performed so poorly. I'm not a data scientist though and would consult with data scientists on my team to find the best possible for this dataset.
 
-The results were not as good as the AutoML model experiment. The best accuracy that the model was able to get was 0.70 which paled in comparison to the AutoML model which had a best accuracy of 0.98. I would choose a different model entirely for the hyper parameter experiment since the logistic regression performed so poorly.
+![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/hyperdrive_run_details.png)
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/hyperdrive_best_model.png)
 
 ## Model Deployment
-*TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
-
 I deployed the AutoML experiment since it was the best performer. I deployed it with an Azure Container Instance to an endpoint within. I was then able to send data to that endpoint to get a result from the model back. You can query the endpoint with a simple python json http request.
 
 Here's a sample data request:
-`
+```
 data = {"data":
            [
               {
@@ -71,13 +63,7 @@ data = {"data":
       },
    ]
 }
-`
+```
 
 ## Screen Recording
-*TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:
-- A working model
-- Demo of the deployed  model
-- Demo of a sample request sent to the endpoint and its response
-
-## Standout Suggestions
-*TODO (Optional):* This is where you can provide information about any standout suggestions that you have attempted.
+[Screen Recording Link](https://youtu.be/XUKNcXzWYWw)

@@ -49,7 +49,7 @@ def main():
     accuracy = model.score(x_test, y_test)
     run.log("Accuracy", np.float(accuracy))
     
-    # save model
+    # save model for exporting later
     os.makedirs('outputs', exist_ok=True)
     joblib.dump(value=model, filename='outputs/model.joblib')
 
