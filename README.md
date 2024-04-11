@@ -106,6 +106,11 @@ The results were not as good as the AutoML model experiment. The best accuracy t
 ## Model Deployment
 I deployed the AutoML experiment since it was the best performer. I deployed it with an Azure Container Instance to an endpoint within. I was then able to send data to that endpoint to get a result from the model back. You can query the endpoint with a simple python json http request.
 ```
+# setting context type to json
+headers = {"Content-Type": "application/json"}
+# passing auth
+headers["Authorization"] = f"Bearer {key}"
+
 # make the request and display the response
 resp = requests.post(scoring_uri, input_data, headers=headers)
 print(resp.json())
@@ -118,7 +123,7 @@ scoring_uri = "http://4ab0e724-1492-41f2-b465-b937a5d655f0.westeurope.azureconta
 key = "CqGmVyg0DAfAboCglzixP3GQpueh26IF"
 ```
 
-Here's a sample data request that can be sent to our endpoint via a python http request:
+Here's a sample data request that can be sent to our endpoint via python http request:
 ```
 data = {"data":
            [
@@ -141,6 +146,11 @@ data = {"data":
       },
    ]
 }
+```
+
+Here's a sample response you can expect back from the endpoint:
+```
+{"result": ["W"]}
 ```
 
 **Screenshot Description: Showing the AutoML model endpoint as active and healthy.**
