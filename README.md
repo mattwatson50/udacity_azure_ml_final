@@ -98,4 +98,4 @@ There's a couple of steps that could be taken to improve this project.
 - Ideally if this were done in a work setting I would work closely with a data scientist to get an idea of which model type would be best based on the data itself.
 
 ## Screen Recording
-[Screen Recording Link](https://youtu.be/XUKNcXzWYWw)
+[Screen Recording Link](https://youtu.be/jNaVuzxc684)
