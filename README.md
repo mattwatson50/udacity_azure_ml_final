@@ -12,6 +12,26 @@ I am using the provided lab for this project.
 ### Overview
 The dataset we are using was supplied from Kaggle [Link](https://www.kaggle.com/datasets/wyattowalsh/basketball). Within that database is a table that stores all game related data. All relevant team stats and the outcome of each game. From that I was able to extract a condensed dataset with SQL that has 3 point shooting percetages for each team as well as the winning team and the highest 3 point percentage between both teams.
 
+Below I will list all of the columns in the dataset with a brief explanation of each.
+```
+season_id,       --season id for which the game was played in
+matchup_home,    --home team versus their opponent listing
+season_type,     --what portion of the season the game was played in (pre-season, regular season, playoffs)
+min,             --how long the game lasted
+team_name_home,  --name of the home team
+fg3m_home,       --how many three point shots the home team made
+fg3a_home,       --how many three point shots the home team attempted
+fg3_pct_home,    --three point shooting percentage for the home team
+wl_home,         --whether the home team won or lost
+team_name_away,  --name of the away team
+fg3m_away,       --how many 3 point shots the away team made
+fg3a_away,       --how many 3 point shots the away team attempted
+fg3_pct_away,    --three point shooting percentage for the away team
+wl_away,         --whether the away team won or lost
+highest_3pp,     --the highest three point shooting percentage between both teams
+highest_3pp_wl   --the win or loss status of the team with the highest three point percentage
+```
+
 ### Task
 With this dataset we will be evaluating whether or not a high 3 point shooting percentage has an impact on the outcome of a game or not.
 
@@ -43,13 +63,32 @@ There are several ways you can register a dataset but I chose via the Azure ML S
 ## Automated ML
 For the AutoML experiment I will be using a classification experiment type to find the best possible model in an automated fashion. I'm looking for the most accurate model and evaluating the column containing the outcome for the highest 3 point shooting percentage between both teams.
 
+### Overview of Experiment Settings
+In this section I'll be explaining in detail all of the parameters in my automl_settings dictionary from my code.
+```
+automl_settings = {
+    'experiment_timeout_minutes' : 30,
+    'task' : 'classification',
+    'primary_metric' : 'accuracy',
+    'training_data' : nba_dataset,
+    'label_column_name' : 'highest_3pp_wl',
+    'n_cross_validations' : 5,
+    'enable_early_stopping' : True,
+    'enable_onnx_compatible_models' : True
+}
+```
+I chose a classification task type in order to find the best possible model to use with this data. I set a timeout of 30 minutes as I didn't want the experiment to run for too long. The primary metric that I wanted the experiment to look for was accuracy. The training data used was the above data set and I used the final column for the models to predict "highest_3pp_wl". I chose 5 cross validations to evaluate the best model and because 5 is a standard choice for number of cross validations. I enabled early stopping in case a certain model test was not working as expected then the experiment could end that one early. I enabled onnx compatible models so I'd be able to export the best model in onnx format.
+
 ### Results
 The AutoML experiment returned Voting Ensemble as the best model with a very high accuracy.
 
+**Screenshot Description: RunDetails widget for the AutoML experiment within the "automl" Jupyter Notebook.**
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_rundetails.png)
 
+**Screenshot Description: Showing the best model that came out of the AutoML experiment within the Azure ML Studio interface.**
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_best_model_trained.png)
 
+**Screenshot Description: Showing the run metrics for best model that came out of the AutoML experiment within the Azure ML Studio interface.**
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_best_model_metrics.png)
 
 ## Hyperparameter Tuning
@@ -58,14 +97,28 @@ For the hyperparameter tuning experiment I chose to do a logistic regression mod
 ### Results
 The results were not as good as the AutoML model experiment. The best accuracy that the model was able to get was 0.70 which paled in comparison to the AutoML model which had a best accuracy of 0.99. I would choose a different model entirely for the hyper parameter experiment since the logistic regression performed so poorly. I'm not a data scientist though and would consult with data scientists on my team to find the best possible for this dataset.
 
+**Screenshot Description: RunDetails widget for the hyperparameter experiment within the "hyperparameter_tuning" Jupyter Notebook.**
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/hyperdrive_run_details.png)
 
+**Screenshot Description: Showing the best model that came out of the hyperparameter experiment within the Azure ML Studio interface.**
 ![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/hyperdrive_best_model.png)
 
 ## Model Deployment
 I deployed the AutoML experiment since it was the best performer. I deployed it with an Azure Container Instance to an endpoint within. I was then able to send data to that endpoint to get a result from the model back. You can query the endpoint with a simple python json http request.
+```
+# make the request and display the response
+resp = requests.post(scoring_uri, input_data, headers=headers)
+print(resp.json())
+```
 
-Here's a sample data request:
+When querying an endpoint in azure you will need both a scoring uri and a key for authentication. You can find both on a deployed endpoint under the "Consume" tab.
+```
+# get the scoring uri and the auth key from the endpoint in azure under the consume section
+scoring_uri = "http://4ab0e724-1492-41f2-b465-b937a5d655f0.westeurope.azurecontainer.io/score"
+key = "CqGmVyg0DAfAboCglzixP3GQpueh26IF"
+```
+
+Here's a sample data request that can be sent to our endpoint via a python http request:
 ```
 data = {"data":
            [
@@ -89,6 +142,10 @@ data = {"data":
    ]
 }
 ```
+
+**Screenshot Description: Showing the AutoML model endpoint as active and healthy.**
+![alt text](https://raw.githubusercontent.com/mattwatson50/udacity_azure_ml_final/main/screenshots/automl_endpoint_active.png)
+
 ## Project Improvements
 There's a couple of steps that could be taken to improve this project.
 - Getting a more robust dataset that includes more games would help the experiments have more to work with.
