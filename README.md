@@ -89,6 +89,13 @@ data = {"data":
    ]
 }
 ```
+## Project Improvements
+There's a couple of steps that could be taken to improve this project.
+- Getting a more robust dataset that includes more games would help the experiments have more to work with.
+- Having another figure in the dataset that accounts for 3 point volume as well to get a bigger picture of how 3 point shooting volume and percentage are coupled and can impact a game outcome.
+- Running different types of AutoML experiments and choosing a different hyperparameter tuning experiment. For instance we could choose an AutoML time series analysis to predict how well a team will shoot against a certain opponent based on past meetings. In the case of the hyperparameter experiment we could try a grid search instead of a random search in order to explore every passed combination of variables. I would also consider swapping the model type over to a decision tree instead of a logistic regression to see the differences between the two.
+- Giving the AutoML experiment more time to complete it's analysis would also help. I limited the AutoML runs to 30 minutes I would expand that to ensure it's a more exhaustive experiment. The same goes for the hyperdrive experiment, I limited it to 40 runs. Expanding that would ensure a more exhaustive experiment.
+- Ideally if this were done in a work setting I would work closely with a data scientist to get an idea of which model type would be best based on the data itself.
 
 ## Screen Recording
 [Screen Recording Link](https://youtu.be/XUKNcXzWYWw)
